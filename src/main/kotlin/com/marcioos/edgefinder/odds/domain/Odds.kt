@@ -1,5 +1,9 @@
 package com.marcioos.edgefinder.odds.domain
 
+import com.marcioos.edgefinder.common.domain.MathConstants.HUNDRED
+import com.marcioos.edgefinder.common.domain.MathConstants.MINUS_HUNDRED
+import com.marcioos.edgefinder.common.domain.MathConstants.TWO
+import com.marcioos.edgefinder.common.domain.MathSettings.CALC_SCALE
 import com.marcioos.edgefinder.common.domain.Percentage
 import com.marcioos.edgefinder.outcome.domain.Outcome
 import java.math.BigDecimal
@@ -26,33 +30,35 @@ value class AmericanOdds(val value: Int) {
 
     init {
         require(value != 0)
-        require(value >= 100 || value <= -100) { "American odds must be <= -100 or >= +100" }
+        require(abs(value) >= 100) { "American odds must be <= -100 or >= +100" }
     }
 
     fun toDecimal(): DecimalOdds {
         val decimal = if (value > 0) {
-            BigDecimal.ONE + BigDecimal(value).divide(BigDecimal("100"))
+            BigDecimal.ONE.add(BigDecimal(value).divide(HUNDRED, CALC_SCALE, RoundingMode.HALF_UP))
         } else {
-            BigDecimal.ONE + (BigDecimal("100").divide(BigDecimal(abs(value)), 10, RoundingMode.HALF_UP))
+            BigDecimal.ONE.add((HUNDRED.divide(BigDecimal(abs(value)), CALC_SCALE, RoundingMode.HALF_UP)))
         }
-        return DecimalOdds(Percentage(decimal))
+        return DecimalOdds(decimal)
     }
 }
 
 @JvmInline
-value class DecimalOdds(val percentage: Percentage) {
+value class DecimalOdds(val value: BigDecimal) {
 
     init {
-        require(percentage.value > BigDecimal.ONE) { "Decimal odds must be > 1"}
+        require(value > BigDecimal.ONE) { "Decimal odds must be > 1" }
     }
 
-    fun impliedProbability(): BigDecimal = (BigDecimal.ONE.divide(percentage.value)).multiply(BigDecimal("100"))
+    fun impliedProbability(): Percentage = Percentage((BigDecimal.ONE.divide(value))
+        .multiply(HUNDRED)
+        .setScale(CALC_SCALE, RoundingMode.HALF_UP))
 
     fun toAmerican(): AmericanOdds {
-        val american = if (percentage.value >= BigDecimal("2")) {
-            percentage.value.subtract(BigDecimal.ONE).multiply(BigDecimal("100"))
+        val american = if (value >= TWO) {
+            value.subtract(BigDecimal.ONE).multiply(HUNDRED)
         } else {
-            BigDecimal("-100").divide(percentage.value.subtract(BigDecimal.ONE), 10, RoundingMode.HALF_UP)
+            MINUS_HUNDRED.divide(value.subtract(BigDecimal.ONE), CALC_SCALE, RoundingMode.HALF_UP)
         }
         return AmericanOdds(american.setScale(0, RoundingMode.HALF_UP).toInt())
     }

@@ -11,43 +11,41 @@ class DecimalOddsTest {
     @Test
     fun `should reject decimal odds less than or equal to one`() {
         assertThrows<IllegalArgumentException> {
-            DecimalOdds(Percentage(BigDecimal.ONE))
+            DecimalOdds(BigDecimal.ONE)
         }
 
         assertThrows<IllegalArgumentException> {
-            DecimalOdds(Percentage(BigDecimal("0.95")))
+            DecimalOdds(BigDecimal("0.95"))
         }
     }
 
     @Test
     fun `should calculate implied probability`() {
         assertThat(
-            DecimalOdds(Percentage(BigDecimal("2.0")))
-                .impliedProbability()
-        ).isEqualByComparingTo("50")
+            DecimalOdds(BigDecimal("2.0")).impliedProbability().value
+        ).isEqualByComparingTo(BigDecimal("50"))
 
         assertThat(
-            DecimalOdds(Percentage(BigDecimal("4.0")))
-                .impliedProbability()
-        ).isEqualByComparingTo("25")
+            DecimalOdds(BigDecimal("4.0")).impliedProbability().value
+        ).isEqualByComparingTo(BigDecimal("25"))
     }
 
     @Test
     fun `should convert decimal odds greater than or equal to two to american`() {
         assertThat(
-            DecimalOdds(Percentage(BigDecimal("2.0")))
+            DecimalOdds(BigDecimal("2.0"))
                 .toAmerican()
                 .value
         ).isEqualTo(100)
 
         assertThat(
-            DecimalOdds(Percentage(BigDecimal("2.5")))
+            DecimalOdds(BigDecimal("2.5"))
                 .toAmerican()
                 .value
         ).isEqualTo(150)
 
         assertThat(
-            DecimalOdds(Percentage(BigDecimal("3.0")))
+            DecimalOdds(BigDecimal("3.0"))
                 .toAmerican()
                 .value
         ).isEqualTo(200)
@@ -56,13 +54,13 @@ class DecimalOddsTest {
     @Test
     fun `should convert decimal odds below two to american`() {
         assertThat(
-            DecimalOdds(Percentage(BigDecimal("1.5")))
+            DecimalOdds(BigDecimal("1.5"))
                 .toAmerican()
                 .value
         ).isEqualTo(-200)
 
         assertThat(
-            DecimalOdds(Percentage(BigDecimal("1.25")))
+            DecimalOdds(BigDecimal("1.25"))
                 .toAmerican()
                 .value
         ).isEqualTo(-400)
