@@ -21,15 +21,6 @@ class RatioTest {
     }
 
     @Test
-    fun `should reject negative ratio`() {
-        assertThatThrownBy {
-            Ratio("-0.0001")
-        }
-            .isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessage("Ratio value should be >= 0. It was -0.0001.")
-    }
-
-    @Test
     fun `should format zero as percentage`() {
         assertThat(Ratio("0").asPercentageString())
             .isEqualTo("0.00%")

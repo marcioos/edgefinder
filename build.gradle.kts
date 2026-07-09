@@ -1,9 +1,10 @@
 plugins {
 	kotlin("jvm") version "2.2.21"
 	kotlin("plugin.spring") version "2.2.21"
-	id("org.springframework.boot") version "4.0.+"
+	id("org.springframework.boot") version "4.0.7"
 	id("io.spring.dependency-management") version "1.1.7"
 	kotlin("plugin.jpa") version "2.2.21"
+	id("jacoco")
 }
 
 group = "com.marcioos"
@@ -52,4 +53,62 @@ allOpen {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	finalizedBy(tasks.jacocoTestReport)
 }
+
+tasks.check {
+    dependsOn(tasks.jacocoTestCoverageVerification)
+}
+
+afterEvaluate {
+	tasks.jacocoTestReport {
+		reports {
+			xml.required.set(true)
+			html.required.set(true)
+		}
+		classDirectories.setFrom(
+			files(classDirectories.files.map {
+				fileTree(it) {
+					exclude(coverageExcludes)
+				}
+			})
+		)
+	}
+
+	tasks.jacocoTestCoverageVerification {
+		violationRules {
+			rule {
+				limit {
+					minimum = "0.80".toBigDecimal()
+				}
+			}
+		}
+		classDirectories.setFrom(
+			files(classDirectories.files.map {
+				fileTree(it) {
+					exclude(coverageExcludes)
+				}
+			})
+		)
+	}
+}
+
+val coverageExcludes = listOf(
+	"**/config/**",
+	"**/*Application*",
+	"**/*Dto*",
+	"**/Bet.class",
+	"**/StakeAllocation.class",
+	"**/BetStatus.class",
+	"**/DateRange.class",
+	"**/Math*",
+	"**/Sportsbook.class",
+	"**/Outcome.class",
+	"**/MoneylineOutcome.class",
+	"**/Market.class",
+	"**/MoneylineMarket.class",
+	"**/Sport.class",
+	"**/League.class",
+	"**/Season.class",
+	"**/Competitor.class"
+)

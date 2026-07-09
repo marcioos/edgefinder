@@ -13,10 +13,6 @@ value class Ratio(internal val value: BigDecimal) : Comparable<Ratio> {
         val ONE = Ratio(BigDecimal.ONE)
     }
 
-    init {
-        require(value >= BigDecimal.ZERO) { "Ratio value should be >= 0. It was $value." }
-    }
-
     operator fun plus(other: Ratio): Ratio {
         return Ratio(value.add(other.value))
     }
