@@ -15,12 +15,12 @@ sealed interface Outcome {
 }
 
 data class MoneylineMarket(
-    override val id: UUID,
-    override val event: Event
+    override val event: Event,
+    override val id: UUID = UUID.randomUUID()
 ) : Market
 
 data class MoneylineOutcome(
-    override val id: UUID,
     override val market: MoneylineMarket,
-    val competitor: Competitor
+    val competitor: Competitor,
+    override val id: UUID = UUID.randomUUID(),
 ) : Outcome

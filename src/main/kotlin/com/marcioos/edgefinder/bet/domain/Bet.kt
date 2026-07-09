@@ -12,8 +12,13 @@ enum class BetStatus {
 }
 
 data class Bet(
-    val id: UUID,
     val odds: Odds,
     val stake: Money,
-    val status: BetStatus
+    val status: BetStatus,
+    val id: UUID = UUID.randomUUID()
+)
+
+data class StakeAllocation(
+    val odds: Odds,
+    val stake: Money
 )

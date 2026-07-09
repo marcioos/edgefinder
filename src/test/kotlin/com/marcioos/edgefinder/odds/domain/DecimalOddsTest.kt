@@ -1,6 +1,6 @@
 package com.marcioos.edgefinder.odds.domain
 
-import com.marcioos.edgefinder.common.domain.Percentage
+import com.marcioos.edgefinder.common.domain.Ratio
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -22,12 +22,12 @@ class DecimalOddsTest {
     @Test
     fun `should calculate implied probability`() {
         assertThat(
-            DecimalOdds(BigDecimal("2.0")).impliedProbability().value
-        ).isEqualByComparingTo(BigDecimal("50"))
+            DecimalOdds(BigDecimal("2.0")).impliedProbability()
+        ).isEqualByComparingTo(Ratio("0.5"))
 
         assertThat(
-            DecimalOdds(BigDecimal("4.0")).impliedProbability().value
-        ).isEqualByComparingTo(BigDecimal("25"))
+            DecimalOdds(BigDecimal("4.0")).impliedProbability()
+        ).isEqualByComparingTo(Ratio("0.25"))
     }
 
     @Test

@@ -4,7 +4,8 @@ import com.marcioos.edgefinder.common.domain.MathConstants.HUNDRED
 import com.marcioos.edgefinder.common.domain.MathConstants.MINUS_HUNDRED
 import com.marcioos.edgefinder.common.domain.MathConstants.TWO
 import com.marcioos.edgefinder.common.domain.MathSettings.CALC_SCALE
-import com.marcioos.edgefinder.common.domain.Percentage
+import com.marcioos.edgefinder.common.domain.Ratio
+import com.marcioos.edgefinder.outcome.domain.Market
 import com.marcioos.edgefinder.outcome.domain.Outcome
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -13,20 +14,30 @@ import java.util.*
 import kotlin.math.abs
 
 data class Sportsbook(
-    val id: UUID,
-    val name: String
+    val name: String,
+    val id: UUID = UUID.randomUUID()
 )
 
 data class Odds(
-    val id: UUID,
     val sportsbook: Sportsbook,
     val outcome: Outcome,
     val decimalOdds: DecimalOdds,
-    val updatedAt: Instant
-)
+    val updatedAt: Instant,
+    val id: UUID = UUID.randomUUID()
+) {
+    val impliedProbability
+        get() = decimalOdds.impliedProbability()
+}
+
+data class MarketOdds(
+    val market: Market,
+    val odds: List<Odds>
+) {
+    fun totalImpliedProbability(): Ratio = odds.map(Odds::impliedProbability).reduce(Ratio::plus)
+}
 
 @JvmInline
-value class AmericanOdds(val value: Int) {
+value class AmericanOdds(internal val value: Int) {
 
     init {
         require(value != 0)
@@ -44,15 +55,21 @@ value class AmericanOdds(val value: Int) {
 }
 
 @JvmInline
-value class DecimalOdds(val value: BigDecimal) {
+value class DecimalOdds(internal val value: BigDecimal) : Comparable<DecimalOdds> {
+
+    constructor(string: String) : this(BigDecimal(string))
 
     init {
         require(value > BigDecimal.ONE) { "Decimal odds must be > 1" }
     }
 
-    fun impliedProbability(): Percentage = Percentage((BigDecimal.ONE.divide(value))
-        .multiply(HUNDRED)
-        .setScale(CALC_SCALE, RoundingMode.HALF_UP))
+    fun impliedProbability(): Ratio = Ratio(
+        BigDecimal.ONE.divide(
+            value,
+            CALC_SCALE,
+            RoundingMode.HALF_UP
+        )
+    )
 
     fun toAmerican(): AmericanOdds {
         val american = if (value >= TWO) {
@@ -61,5 +78,9 @@ value class DecimalOdds(val value: BigDecimal) {
             MINUS_HUNDRED.divide(value.subtract(BigDecimal.ONE), CALC_SCALE, RoundingMode.HALF_UP)
         }
         return AmericanOdds(american.setScale(0, RoundingMode.HALF_UP).toInt())
+    }
+
+    override fun compareTo(other: DecimalOdds): Int {
+        return this.value.compareTo(other.value)
     }
 }
