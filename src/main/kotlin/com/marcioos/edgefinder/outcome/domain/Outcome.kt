@@ -2,7 +2,7 @@ package com.marcioos.edgefinder.outcome.domain
 
 import com.marcioos.edgefinder.sports.domain.Competitor
 import com.marcioos.edgefinder.sports.domain.Event
-import java.util.*
+import java.util.UUID
 
 sealed interface Market {
     val id: UUID
@@ -16,7 +16,7 @@ sealed interface Outcome {
 
 data class MoneylineMarket(
     override val event: Event,
-    override val id: UUID = UUID.randomUUID()
+    override val id: UUID = UUID.randomUUID(),
 ) : Market
 
 data class MoneylineOutcome(

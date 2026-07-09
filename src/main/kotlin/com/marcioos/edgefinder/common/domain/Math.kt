@@ -2,7 +2,6 @@ package com.marcioos.edgefinder.common.domain
 
 import java.math.BigDecimal
 
-
 object MathConstants {
     val HUNDRED = BigDecimal("100")
     val MINUS_HUNDRED = BigDecimal("-100")

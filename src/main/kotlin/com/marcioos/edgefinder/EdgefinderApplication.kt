@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class EdgefinderApplication
 
 fun main(args: Array<String>) {
-	runApplication<EdgefinderApplication>(*args)
+    runApplication<EdgefinderApplication>(*args)
 }

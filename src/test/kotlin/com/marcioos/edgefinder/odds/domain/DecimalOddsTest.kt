@@ -7,7 +7,6 @@ import org.junit.jupiter.api.assertThrows
 import java.math.BigDecimal
 
 class DecimalOddsTest {
-
     @Test
     fun `should reject decimal odds less than or equal to one`() {
         assertThrows<IllegalArgumentException> {
@@ -22,11 +21,11 @@ class DecimalOddsTest {
     @Test
     fun `should calculate implied probability`() {
         assertThat(
-            DecimalOdds(BigDecimal("2.0")).impliedProbability()
+            DecimalOdds(BigDecimal("2.0")).impliedProbability(),
         ).isEqualByComparingTo(Ratio("0.5"))
 
         assertThat(
-            DecimalOdds(BigDecimal("4.0")).impliedProbability()
+            DecimalOdds(BigDecimal("4.0")).impliedProbability(),
         ).isEqualByComparingTo(Ratio("0.25"))
     }
 
@@ -35,19 +34,19 @@ class DecimalOddsTest {
         assertThat(
             DecimalOdds(BigDecimal("2.0"))
                 .toAmerican()
-                .value
+                .value,
         ).isEqualTo(100)
 
         assertThat(
             DecimalOdds(BigDecimal("2.5"))
                 .toAmerican()
-                .value
+                .value,
         ).isEqualTo(150)
 
         assertThat(
             DecimalOdds(BigDecimal("3.0"))
                 .toAmerican()
-                .value
+                .value,
         ).isEqualTo(200)
     }
 
@@ -56,36 +55,37 @@ class DecimalOddsTest {
         assertThat(
             DecimalOdds(BigDecimal("1.5"))
                 .toAmerican()
-                .value
+                .value,
         ).isEqualTo(-200)
 
         assertThat(
             DecimalOdds(BigDecimal("1.25"))
                 .toAmerican()
-                .value
+                .value,
         ).isEqualTo(-400)
     }
 
     @Test
     fun `should round trip american to decimal and back`() {
-        val values = listOf(
-            100,
-            120,
-            150,
-            200,
-            -110,
-            -125,
-            -150,
-            -200,
-            -400
-        )
+        val values =
+            listOf(
+                100,
+                120,
+                150,
+                200,
+                -110,
+                -125,
+                -150,
+                -200,
+                -400,
+            )
 
         values.forEach {
             assertThat(
                 AmericanOdds(it)
                     .toDecimal()
                     .toAmerican()
-                    .value
+                    .value,
             ).isEqualTo(it)
         }
     }

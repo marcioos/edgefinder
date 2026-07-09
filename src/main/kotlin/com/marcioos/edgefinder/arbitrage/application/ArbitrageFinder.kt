@@ -6,7 +6,7 @@ import com.marcioos.edgefinder.odds.application.OddsRepository
 
 class ArbitrageFinder(
     private val oddsRepository: OddsRepository,
-    private val arbitrageCalculator: ArbitrageCalculator
+    private val arbitrageCalculator: ArbitrageCalculator,
 ) {
     fun findAll(): List<ArbitrageOpportunity> {
         val odds = oddsRepository.findCurrentOdds()

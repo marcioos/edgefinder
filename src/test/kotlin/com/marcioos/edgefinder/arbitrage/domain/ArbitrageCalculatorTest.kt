@@ -9,15 +9,15 @@ import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 
 class ArbitrageCalculatorTest {
-
     private val calculator = ArbitrageCalculator()
 
     @Test
     fun `should return empty list when no arbitrage opportunities exist`() {
-        val marketOdds = Fixtures.moneylineMarketOdds(
-            decimalOdds1 = "1.91",
-            decimalOdds2 = "1.91"
-        )
+        val marketOdds =
+            Fixtures.moneylineMarketOdds(
+                decimalOdds1 = "1.91",
+                decimalOdds2 = "1.91",
+            )
 
         val opportunities = calculator.calculateOpportunities(marketOdds.odds)
 
@@ -26,10 +26,11 @@ class ArbitrageCalculatorTest {
 
     @Test
     fun `should find arbitrage opportunity`() {
-        val marketOdds = Fixtures.moneylineMarketOdds(
-            decimalOdds1 = "2.20",
-            decimalOdds2 = "2.15"
-        )
+        val marketOdds =
+            Fixtures.moneylineMarketOdds(
+                decimalOdds1 = "2.20",
+                decimalOdds2 = "2.15",
+            )
 
         val opportunities = calculator.calculateOpportunities(marketOdds.odds)
 
@@ -46,26 +47,30 @@ class ArbitrageCalculatorTest {
 
     @Test
     fun `should select highest odds for each outcome`() {
-        val marketOdds = Fixtures.moneylineMarketOdds(
-            decimalOdds1 = "2.20",
-            decimalOdds2 = "2.15"
-        )
-
-        val betterHomeOdds = marketOdds.homeOdds.copy(
-            decimalOdds = DecimalOdds("2.30")
-        )
-
-        val worseHomeOdds = marketOdds.homeOdds.copy(
-            decimalOdds = DecimalOdds("2.10")
-        )
-
-        val opportunities = calculator.calculateOpportunities(
-            listOf(
-                betterHomeOdds,
-                worseHomeOdds,
-                marketOdds.awayOdds
+        val marketOdds =
+            Fixtures.moneylineMarketOdds(
+                decimalOdds1 = "2.20",
+                decimalOdds2 = "2.15",
             )
-        )
+
+        val betterHomeOdds =
+            marketOdds.homeOdds.copy(
+                decimalOdds = DecimalOdds("2.30"),
+            )
+
+        val worseHomeOdds =
+            marketOdds.homeOdds.copy(
+                decimalOdds = DecimalOdds("2.10"),
+            )
+
+        val opportunities =
+            calculator.calculateOpportunities(
+                listOf(
+                    betterHomeOdds,
+                    worseHomeOdds,
+                    marketOdds.awayOdds,
+                ),
+            )
 
         val opportunity = opportunities.single()
 
@@ -76,40 +81,46 @@ class ArbitrageCalculatorTest {
 
     @Test
     fun `should calculate one opportunity per market`() {
-        val firstMarket = Fixtures.moneylineMarketOdds(
-            decimalOdds1 = "2.20",
-            decimalOdds2 = "2.15"
-        )
+        val firstMarket =
+            Fixtures.moneylineMarketOdds(
+                decimalOdds1 = "2.20",
+                decimalOdds2 = "2.15",
+            )
 
-        val secondMarket = Fixtures.moneylineMarketOdds(
-            decimalOdds1 = "2.30",
-            decimalOdds2 = "2.05",
-            market = Fixtures.secondMarket
-        )
+        val secondMarket =
+            Fixtures.moneylineMarketOdds(
+                decimalOdds1 = "2.30",
+                decimalOdds2 = "2.05",
+                market = Fixtures.secondMarket,
+            )
 
-        val opportunities = calculator.calculateOpportunities(
-            firstMarket.odds + secondMarket.odds
-        )
+        val opportunities =
+            calculator.calculateOpportunities(
+                firstMarket.odds + secondMarket.odds,
+            )
 
         assertThat(opportunities).hasSize(2)
     }
 
     @Test
     fun `should ignore non arbitrage markets`() {
-        val arbitrage = Fixtures.moneylineMarketOdds(
-            decimalOdds1 = "2.20",
-            decimalOdds2 = "2.15"
-        )
+        val arbitrage =
+            Fixtures.moneylineMarketOdds(
+                decimalOdds1 = "2.20",
+                decimalOdds2 = "2.15",
+            )
 
-        val nonArbitrage = Fixtures.moneylineMarketOdds(
-            decimalOdds1 = "1.91",
-            decimalOdds2 = "1.91",
-            market = Fixtures.secondMarket
-        )
+        val nonArbitrage =
+            Fixtures.moneylineMarketOdds(
+                decimalOdds1 = "1.91",
+                decimalOdds2 = "1.91",
+                market = Fixtures.secondMarket,
+            )
 
-        val opportunities = calculator.calculateOpportunities(
-            arbitrage.odds + nonArbitrage.odds
-        )
+        val opportunities =
+            calculator.calculateOpportunities(
+                arbitrage.odds + nonArbitrage.odds,
+            )
 
         assertThat(opportunities).hasSize(1)
     }

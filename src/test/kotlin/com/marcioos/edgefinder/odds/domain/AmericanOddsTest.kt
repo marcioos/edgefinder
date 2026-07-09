@@ -7,7 +7,6 @@ import org.junit.jupiter.api.assertThrows
 import java.math.BigDecimal
 
 class AmericanOddsTest {
-
     @Test
     fun `should reject zero`() {
         assertThrows<IllegalArgumentException> {

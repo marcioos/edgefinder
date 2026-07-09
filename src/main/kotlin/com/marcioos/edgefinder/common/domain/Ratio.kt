@@ -5,7 +5,9 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 
 @JvmInline
-value class Ratio(internal val value: BigDecimal) : Comparable<Ratio> {
+value class Ratio(
+    internal val value: BigDecimal,
+) : Comparable<Ratio> {
     constructor(string: String) : this(BigDecimal(string))
 
     companion object {
@@ -13,24 +15,19 @@ value class Ratio(internal val value: BigDecimal) : Comparable<Ratio> {
         val ONE = Ratio(BigDecimal.ONE)
     }
 
-    operator fun plus(other: Ratio): Ratio {
-        return Ratio(value.add(other.value))
-    }
+    operator fun plus(other: Ratio): Ratio = Ratio(value.add(other.value))
 
     operator fun times(money: Money): Money = Money(value.multiply(money.value))
 
-    operator fun div(other: Ratio) : Ratio = Ratio(value.divide(other.value, CALC_SCALE, RoundingMode.HALF_UP))
+    operator fun div(other: Ratio): Ratio = Ratio(value.divide(other.value, CALC_SCALE, RoundingMode.HALF_UP))
 
-    operator fun minus(other: Ratio): Ratio {
-        return Ratio(value.subtract(other.value))
-    }
+    operator fun minus(other: Ratio): Ratio = Ratio(value.subtract(other.value))
 
-    override fun compareTo(other: Ratio): Int {
-        return this.value.compareTo(other.value)
-    }
+    override fun compareTo(other: Ratio): Int = this.value.compareTo(other.value)
 
-    fun asPercentageString(): String = value
-        .multiply(BigDecimal("100"))
-        .setScale(2, RoundingMode.HALF_UP)
-        .toPlainString() + "%"
+    fun asPercentageString(): String =
+        value
+            .multiply(BigDecimal("100"))
+            .setScale(2, RoundingMode.HALF_UP)
+            .toPlainString() + "%"
 }

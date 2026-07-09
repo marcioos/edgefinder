@@ -4,12 +4,12 @@ import com.marcioos.edgefinder.odds.domain.DecimalOdds
 import java.math.BigDecimal
 
 enum class Currency {
-    USD
+    USD,
 }
 
 data class Money(
     val value: BigDecimal,
-    val currency: Currency = Currency.USD
+    val currency: Currency = Currency.USD,
 ) : Comparable<Money> {
     constructor(value: String) : this(BigDecimal(value))
 

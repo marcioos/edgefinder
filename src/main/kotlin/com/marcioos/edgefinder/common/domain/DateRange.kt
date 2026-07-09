@@ -4,5 +4,5 @@ import java.time.LocalDate
 
 data class DateRange(
     val start: LocalDate,
-    val end: LocalDate
+    val end: LocalDate,
 )

@@ -1,11 +1,9 @@
 package com.marcioos.edgefinder.common.domain
 
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 
 class RatioTest {
-
     @Test
     fun `should create ratio with zero`() {
         val ratio = Ratio("0")
