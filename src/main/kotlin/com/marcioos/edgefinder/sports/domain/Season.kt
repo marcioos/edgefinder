@@ -15,7 +15,7 @@ data class Event(
     val season: Season,
     val home: Competitor,
     val away: Competitor,
-    val dateTime: ZonedDateTime,
+    val startTime: ZonedDateTime,
     val id: UUID = UUID.randomUUID(),
 ) {
     val name: String

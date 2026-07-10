@@ -13,7 +13,7 @@ class EventTest {
                 season = Fixtures.season2026,
                 home = Fixtures.lakers,
                 away = Fixtures.celtics,
-                dateTime = ZonedDateTime.parse("2026-01-10T20:00:00Z"),
+                startTime = ZonedDateTime.parse("2026-01-10T20:00:00Z"),
             )
 
         assertThat(event.name).isEqualTo("Los Angeles Lakers vs Boston Celtics")

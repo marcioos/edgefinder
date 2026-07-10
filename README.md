@@ -30,12 +30,12 @@ portfolio/
 
 Each feature is organized into its own `api`, `application`, `domain`, and `infrastructure` packages as the project evolves.
 
-## Current Status
+## Current MVP Status
 
 - ✅ Project scaffolding
 - ✅ Initial domain model
-- 🚧 Arbitrage engine
-- 🚧 REST API
+- ✅ Arbitrage engine
+- ✅ REST API
 - 🚧 Persistence
 - 🚧 Integration tests
 

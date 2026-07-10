@@ -1,5 +1,7 @@
 package com.marcioos.edgefinder.fixtures
 
+import com.marcioos.edgefinder.arbitrage.domain.ArbitrageOpportunity
+import com.marcioos.edgefinder.arbitrage.domain.ArbitragePlan
 import com.marcioos.edgefinder.common.domain.DateRange
 import com.marcioos.edgefinder.common.domain.Money
 import com.marcioos.edgefinder.common.domain.Ratio
@@ -9,11 +11,11 @@ import com.marcioos.edgefinder.odds.domain.Odds
 import com.marcioos.edgefinder.odds.domain.Sportsbook
 import com.marcioos.edgefinder.outcome.domain.MoneylineMarket
 import com.marcioos.edgefinder.outcome.domain.MoneylineOutcome
-import com.marcioos.edgefinder.sports.domain.Competitor
-import com.marcioos.edgefinder.sports.domain.Event
 import com.marcioos.edgefinder.sports.domain.Competition
 import com.marcioos.edgefinder.sports.domain.CompetitionFormat
 import com.marcioos.edgefinder.sports.domain.CompetitionLevel
+import com.marcioos.edgefinder.sports.domain.Competitor
+import com.marcioos.edgefinder.sports.domain.Event
 import com.marcioos.edgefinder.sports.domain.Season
 import com.marcioos.edgefinder.sports.domain.Sport
 import java.math.BigDecimal
@@ -155,6 +157,23 @@ object Fixtures {
     fun money(value: String) = Money(BigDecimal(value))
 
     fun ratio(value: String) = Ratio(BigDecimal(value))
+
+    fun arbitrageOpportunity(
+        marketOdds: MarketOdds =
+            moneylineMarketOdds(
+                decimalOdds1 = "2.20",
+                decimalOdds2 = "2.15",
+            ),
+    ): ArbitrageOpportunity = ArbitrageOpportunity.create(marketOdds)
+
+    fun arbitragePlan(
+        opportunity: ArbitrageOpportunity = arbitrageOpportunity(),
+        bankroll: Money = Money("1000"),
+    ): ArbitragePlan =
+        ArbitragePlan.forBankroll(
+            bankroll,
+            opportunity,
+        )
 }
 
 val MarketOdds.homeOdds

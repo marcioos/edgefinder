@@ -17,7 +17,7 @@ value class Ratio(
 
     operator fun plus(other: Ratio): Ratio = Ratio(value.add(other.value))
 
-    operator fun times(money: Money): Money = Money(value.multiply(money.value))
+    operator fun times(money: Money): Money = Money(value.multiply(money.amount))
 
     operator fun div(other: Ratio): Ratio = Ratio(value.divide(other.value, CALC_SCALE, RoundingMode.HALF_UP))
 

@@ -22,7 +22,7 @@ class ArbitragePlanTest {
 
         val plan = ArbitragePlan.forBankroll(bankroll, opportunity)
 
-        assertThat(plan.profit.value).isCloseTo(BigDecimal("87.358"), within(BigDecimal("0.01")))
+        assertThat(plan.profit.amount).isCloseTo(BigDecimal("87.358"), within(BigDecimal("0.01")))
     }
 
     @Test
@@ -88,9 +88,9 @@ class ArbitragePlanTest {
                 it.stake * it.odds.decimalOdds
             }
 
-        assertThat(payouts[0].value)
+        assertThat(payouts[0].amount)
             .isCloseTo(
-                payouts[1].value,
+                payouts[1].amount,
                 within(BigDecimal("0.01")),
             )
     }
