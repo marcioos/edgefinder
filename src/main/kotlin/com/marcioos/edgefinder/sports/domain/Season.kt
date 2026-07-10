@@ -5,7 +5,7 @@ import java.time.ZonedDateTime
 import java.util.UUID
 
 data class Season(
-    val league: League,
+    val league: Competition,
     val period: DateRange,
     val competitors: Set<Competitor>,
     val id: UUID = UUID.randomUUID(),

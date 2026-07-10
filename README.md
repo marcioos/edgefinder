@@ -21,11 +21,9 @@ The project follows a feature-oriented package structure inspired by Clean Archi
 
 ```
 sports/
-sportsbook/
-market/
-outcome/
-odds/
 arbitrage/
+odds/
+outcome/
 bet/
 portfolio/
 ```

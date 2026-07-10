@@ -11,7 +11,9 @@ import com.marcioos.edgefinder.outcome.domain.MoneylineMarket
 import com.marcioos.edgefinder.outcome.domain.MoneylineOutcome
 import com.marcioos.edgefinder.sports.domain.Competitor
 import com.marcioos.edgefinder.sports.domain.Event
-import com.marcioos.edgefinder.sports.domain.League
+import com.marcioos.edgefinder.sports.domain.Competition
+import com.marcioos.edgefinder.sports.domain.CompetitionFormat
+import com.marcioos.edgefinder.sports.domain.CompetitionLevel
 import com.marcioos.edgefinder.sports.domain.Season
 import com.marcioos.edgefinder.sports.domain.Sport
 import java.math.BigDecimal
@@ -28,9 +30,11 @@ object Fixtures {
         )
 
     val nba =
-        League(
+        Competition(
             "NBA",
             basketball,
+            CompetitionLevel.NATIONAL,
+            CompetitionFormat.LEAGUE,
             UUID.fromString("00000000-0000-0000-0000-000000000002"),
         )
 
