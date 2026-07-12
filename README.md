@@ -35,18 +35,17 @@ Each feature is organized into its own `api`, `application`, `domain`, and `infr
 - ✅ Project scaffolding
 - ✅ Initial domain model
 - ✅ Arbitrage engine
-- ✅ REST API
-- 🚧 Persistence
-- 🚧 Integration tests
+- ✅ REST API and Integration Tests
+- ✅ Persistence and Integration Tests
+- 🚧 Authentication
+- 🚧 Betting history
 
 ## Roadmap
 
-- Detect arbitrage opportunities across multiple sportsbooks
-- Calculate optimal stake allocation
-- Expose REST endpoints
-- Persist betting history
+- Filter arbitrage opportunities by sports and competitions
 - Provide portfolio and ROI statistics
-- Add comprehensive unit and integration tests
+- Automated data ingestion
+- Admin interface
 
 ## Goals
 
