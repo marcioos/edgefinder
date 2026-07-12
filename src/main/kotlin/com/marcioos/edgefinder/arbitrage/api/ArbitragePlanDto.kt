@@ -2,6 +2,7 @@ package com.marcioos.edgefinder.arbitrage.api
 
 import com.marcioos.edgefinder.arbitrage.domain.ArbitragePlan
 import com.marcioos.edgefinder.common.api.dto.MoneyDto
+import com.marcioos.edgefinder.outcome.domain.OutcomeSide
 
 data class ArbitragePlanDto(
     val opportunity: ArbitrageOpportunityDto,
@@ -10,7 +11,7 @@ data class ArbitragePlanDto(
 ) {
     data class StakeAllocationDto(
         val sportsbook: String,
-        val competitor: String,
+        val side: OutcomeSide,
         val stake: MoneyDto,
         val decimalOdds: String,
         val americanOdds: Int,
@@ -25,7 +26,7 @@ data class ArbitragePlanDto(
                     plan.stakeAllocations.map {
                         StakeAllocationDto(
                             sportsbook = it.odds.sportsbook.name,
-                            competitor = it.odds.outcome.displayName,
+                            side = it.odds.outcome.side,
                             stake = MoneyDto.from(it.stake),
                             decimalOdds =
                                 it.odds.decimalOdds.value

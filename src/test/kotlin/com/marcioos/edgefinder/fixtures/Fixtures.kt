@@ -11,6 +11,7 @@ import com.marcioos.edgefinder.odds.domain.Odds
 import com.marcioos.edgefinder.odds.domain.Sportsbook
 import com.marcioos.edgefinder.outcome.domain.MarketType
 import com.marcioos.edgefinder.outcome.domain.MoneylineOutcome
+import com.marcioos.edgefinder.outcome.domain.OutcomeSide
 import com.marcioos.edgefinder.sports.domain.Competition
 import com.marcioos.edgefinder.sports.domain.Competitor
 import com.marcioos.edgefinder.sports.domain.Event
@@ -96,7 +97,7 @@ object Fixtures {
                 id = UUID.randomUUID(),
                 market = market,
                 event = event,
-                competitor = event.home,
+                side = OutcomeSide.HOME,
             )
 
         val awayOutcome =
@@ -104,7 +105,7 @@ object Fixtures {
                 id = UUID.randomUUID(),
                 market = market,
                 event = event,
-                competitor = event.away,
+                side = OutcomeSide.AWAY,
             )
 
         return MarketOdds(

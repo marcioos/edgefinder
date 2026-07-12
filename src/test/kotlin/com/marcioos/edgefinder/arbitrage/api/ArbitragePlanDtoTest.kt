@@ -49,7 +49,7 @@ fun assertAllocationDto(
     allocation: StakeAllocation,
 ) {
     assertThat(dto.sportsbook).isEqualTo(allocation.odds.sportsbook.name)
-    assertThat(dto.competitor).isEqualTo(allocation.odds.outcome.displayName)
+    assertThat(dto.side).isEqualTo(allocation.odds.outcome.side)
     assertThat(dto.stake).isEqualTo(MoneyDto.from(allocation.stake))
     assertThat(dto.decimalOdds).isEqualTo(
         allocation.odds.decimalOdds.value

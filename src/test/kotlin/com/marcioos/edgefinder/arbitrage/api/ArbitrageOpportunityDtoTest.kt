@@ -2,6 +2,7 @@ package com.marcioos.edgefinder.arbitrage.api
 
 import com.marcioos.edgefinder.arbitrage.domain.ArbitrageOpportunity
 import com.marcioos.edgefinder.fixtures.Fixtures
+import com.marcioos.edgefinder.outcome.domain.OutcomeSide
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -45,12 +46,13 @@ class ArbitrageOpportunityDtoTest {
         assertThat(dto.selections).hasSize(2)
 
         val expectedSelections =
-            opportunity.selections.associateBy { it.outcome.displayName }
+            opportunity.selections.associateBy { if (it.outcome.side == OutcomeSide.HOME) event.home.name else event.away.name }
 
         assertThat(dto.selections).hasSize(expectedSelections.size)
 
         dto.selections.forEach { dtoSelection ->
-            val odds = expectedSelections[dtoSelection.competitor]!!
+            val key = if (dtoSelection.side == OutcomeSide.HOME) event.home.name else event.away.name
+            val odds = expectedSelections[key]!!
 
             assertThat(dtoSelection.sportsbook).isEqualTo(odds.sportsbook.name)
             assertThat(dtoSelection.decimalOdds).isEqualTo(odds.decimalOdds.value.toPlainString())

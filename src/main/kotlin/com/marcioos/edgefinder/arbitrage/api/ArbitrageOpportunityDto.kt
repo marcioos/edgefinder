@@ -2,6 +2,7 @@ package com.marcioos.edgefinder.arbitrage.api
 
 import com.marcioos.edgefinder.arbitrage.domain.ArbitrageOpportunity
 import com.marcioos.edgefinder.outcome.domain.MarketType
+import com.marcioos.edgefinder.outcome.domain.OutcomeSide
 import java.time.Instant
 import java.util.UUID
 
@@ -13,7 +14,7 @@ data class ArbitrageOpportunityDto(
 ) {
     data class SelectionDto(
         val sportsbook: String,
-        val competitor: String,
+        val side: OutcomeSide,
         val decimalOdds: String,
         val americanOdds: Int,
     )
@@ -27,25 +28,30 @@ data class ArbitrageOpportunityDto(
 
     companion object {
         fun from(opportunity: ArbitrageOpportunity): ArbitrageOpportunityDto {
-            val outcome = opportunity.selections.first().outcome
+            val market =
+                opportunity.selections
+                    .first()
+                    .outcome.market
             val event =
-                outcome.event.run {
-                    EventDto(
-                        id = id,
-                        home = home.name,
-                        away = away.name,
-                        startTime = startTime,
-                    )
-                }
+                opportunity.selections
+                    .first()
+                    .outcome.event
+            val eventDto =
+                EventDto(
+                    id = event.id,
+                    home = event.home.name,
+                    away = event.away.name,
+                    startTime = event.startTime,
+                )
             return ArbitrageOpportunityDto(
-                event = event,
-                market = outcome.market,
+                event = eventDto,
+                market = market,
                 roi = opportunity.roi.value.toPlainString(),
                 selections =
                     opportunity.selections.map {
                         SelectionDto(
                             sportsbook = it.sportsbook.name,
-                            competitor = it.outcome.displayName,
+                            side = it.outcome.side,
                             decimalOdds = it.decimalOdds.value.toPlainString(),
                             americanOdds = it.decimalOdds.toAmerican().value,
                         )

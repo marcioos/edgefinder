@@ -2,7 +2,6 @@ package com.marcioos.edgefinder.arbitrage.domain
 
 import com.marcioos.edgefinder.common.domain.Ratio
 import com.marcioos.edgefinder.fixtures.Fixtures
-import com.marcioos.edgefinder.fixtures.Fixtures.lakersVsCeltics
 import com.marcioos.edgefinder.fixtures.awayOdds
 import com.marcioos.edgefinder.fixtures.homeOdds
 import com.marcioos.edgefinder.odds.domain.DecimalOdds
