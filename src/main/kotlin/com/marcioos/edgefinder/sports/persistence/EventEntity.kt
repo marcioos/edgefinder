@@ -37,10 +37,10 @@ fun EventEntity.toDomain() =
         startTime = startTime,
     )
 
-fun Event.toEntity() =
+fun Event.toEntity(season: SeasonEntity) =
     EventEntity(
         id = id,
-        season = season.toEntity(),
+        season = season,
         homeCompetitor = home.name,
         awayCompetitor = away.name,
         startTime = startTime,

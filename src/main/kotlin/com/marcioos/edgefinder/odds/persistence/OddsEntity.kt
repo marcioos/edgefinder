@@ -42,11 +42,14 @@ fun OddsEntity.toDomain(): Odds =
         updatedAt = updatedAt,
     )
 
-fun Odds.toEntity(): OddsEntity =
+fun Odds.toEntity(
+    sportsbook: SportsbookEntity,
+    outcome: OutcomeEntity,
+): OddsEntity =
     OddsEntity(
         id = id,
-        sportsbook = sportsbook.toEntity(),
-        outcome = outcome.toEntity(),
+        sportsbook = sportsbook,
+        outcome = outcome,
         decimalOdds = decimalOdds.value,
         updatedAt = updatedAt,
     )

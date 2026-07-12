@@ -6,7 +6,6 @@ import com.marcioos.edgefinder.outcome.domain.Outcome
 import com.marcioos.edgefinder.outcome.domain.OutcomeSide
 import com.marcioos.edgefinder.sports.persistence.EventEntity
 import com.marcioos.edgefinder.sports.persistence.toDomain
-import com.marcioos.edgefinder.sports.persistence.toEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -16,7 +15,6 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
-import java.math.BigDecimal
 import java.util.UUID
 
 @Entity
@@ -33,9 +31,6 @@ class OutcomeEntity(
     @Enumerated(EnumType.STRING)
     @Column(name = "side", nullable = false)
     val side: OutcomeSide,
-    val competitor: String?,
-    @Column(precision = 6, scale = 2, nullable = true)
-    val line: BigDecimal?,
 )
 
 fun OutcomeEntity.toDomain(): Outcome =
@@ -49,16 +44,14 @@ fun OutcomeEntity.toDomain(): Outcome =
         }
     }
 
-fun Outcome.toEntity(): OutcomeEntity =
+fun Outcome.toEntity(event: EventEntity): OutcomeEntity =
     when (this) {
         is MoneylineOutcome -> {
             OutcomeEntity(
                 id = id,
-                event = event.toEntity(),
+                event = event,
                 marketType = market,
                 side = side,
-                competitor = if (side == OutcomeSide.HOME) event.home.name else event.away.name,
-                line = null,
             )
         }
     }

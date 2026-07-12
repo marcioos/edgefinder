@@ -28,14 +28,9 @@ data class ArbitrageOpportunityDto(
 
     companion object {
         fun from(opportunity: ArbitrageOpportunity): ArbitrageOpportunityDto {
-            val market =
-                opportunity.selections
-                    .first()
-                    .outcome.market
-            val event =
-                opportunity.selections
-                    .first()
-                    .outcome.event
+            val firstOutcome = opportunity.selections.first().outcome
+            val market = firstOutcome.market
+            val event = firstOutcome.event
             val eventDto =
                 EventDto(
                     id = event.id,
