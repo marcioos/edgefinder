@@ -18,8 +18,6 @@ class ArbitrageOpportunityDtoTest {
 
         val dto = ArbitrageOpportunityDto.from(opportunity)
 
-        assertThat(dto.id).isEqualTo(opportunity.id)
-
         assertThat(dto.market)
             .isEqualTo(
                 opportunity.selections

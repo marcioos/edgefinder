@@ -5,7 +5,7 @@ import com.marcioos.edgefinder.arbitrage.domain.ArbitrageOpportunity
 import com.marcioos.edgefinder.arbitrage.domain.ArbitragePlan
 import com.marcioos.edgefinder.arbitrage.domain.ArbitragePlanner
 import com.marcioos.edgefinder.common.domain.Money
-import com.marcioos.edgefinder.odds.infrastructure.OddsRepository
+import com.marcioos.edgefinder.odds.persistence.OddsRepository
 import org.springframework.stereotype.Service
 
 @Service

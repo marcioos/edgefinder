@@ -5,10 +5,8 @@ import com.marcioos.edgefinder.common.domain.Money
 import com.marcioos.edgefinder.common.domain.Ratio
 import com.marcioos.edgefinder.odds.domain.MarketOdds
 import com.marcioos.edgefinder.odds.domain.Odds
-import java.util.UUID
 
 data class ArbitrageOpportunity(
-    val id: UUID,
     val selections: List<Odds>,
     val totalImpliedProbability: Ratio,
     val roi: Ratio,
@@ -25,12 +23,11 @@ data class ArbitrageOpportunity(
         internal fun create(
             marketOdds: MarketOdds,
             totalImpliedProbability: Ratio,
-            id: UUID = UUID.randomUUID(),
         ): ArbitrageOpportunity {
             val roi = calculateRoi(totalImpliedProbability)
             val selections = marketOdds.odds
 
-            return ArbitrageOpportunity(id, selections, totalImpliedProbability, roi)
+            return ArbitrageOpportunity(selections, totalImpliedProbability, roi)
         }
 
         private fun calculateRoi(totalImpliedProbability: Ratio): Ratio = (Ratio.ONE / totalImpliedProbability) - Ratio.ONE

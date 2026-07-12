@@ -1,4 +1,4 @@
-package com.marcioos.edgefinder.odds.infrastructure
+package com.marcioos.edgefinder.odds.persistence
 
 import com.marcioos.edgefinder.odds.domain.Odds
 

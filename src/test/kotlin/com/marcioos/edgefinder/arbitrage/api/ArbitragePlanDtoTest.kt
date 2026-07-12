@@ -37,11 +37,6 @@ class ArbitragePlanDtoTest {
         assertThat(dto.stakeAllocations)
             .hasSize(plan.stakeAllocations.size)
 
-        val expectedAllocations =
-            plan.stakeAllocations.associateBy {
-                it.odds.outcome.displayName
-            }
-
         dto.stakeAllocations
             .zip(
                 plan.stakeAllocations,

@@ -6,7 +6,6 @@ import java.time.ZonedDateTime
 import java.util.UUID
 
 data class ArbitrageOpportunityDto(
-    val id: UUID,
     val event: EventDto,
     val market: MarketType,
     val roi: String,
@@ -41,7 +40,6 @@ data class ArbitrageOpportunityDto(
                 )
 
             return ArbitrageOpportunityDto(
-                id = opportunity.id,
                 event = event,
                 market = market.type,
                 roi = opportunity.roi.value.toPlainString(),
