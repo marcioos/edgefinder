@@ -26,15 +26,15 @@ class OutcomeEntity(
     @JoinColumn(name = "event_id")
     val event: EventEntity,
     @Enumerated(EnumType.STRING)
-    @Column(name = "market_type", nullable = false)
-    val marketType: MarketType,
+    @Column(name = "market", nullable = false)
+    val market: MarketType,
     @Enumerated(EnumType.STRING)
     @Column(name = "side", nullable = false)
     val side: OutcomeSide,
 )
 
 fun OutcomeEntity.toDomain(): Outcome =
-    when (marketType) {
+    when (market) {
         MarketType.MONEYLINE -> {
             MoneylineOutcome(
                 id = id,
@@ -50,7 +50,7 @@ fun Outcome.toEntity(event: EventEntity): OutcomeEntity =
             OutcomeEntity(
                 id = id,
                 event = event,
-                marketType = market,
+                market = market,
                 side = side,
             )
         }

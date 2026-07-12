@@ -10,30 +10,17 @@ import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import jakarta.persistence.UniqueConstraint
 import java.time.LocalDate
 import java.util.UUID
 
 @Entity
-@Table(
-    name = "season",
-    uniqueConstraints = [
-        UniqueConstraint(
-            name = "uk_season_competition",
-            columnNames = [
-                "competition",
-                "start",
-                "end",
-            ],
-        ),
-    ],
-)
+@Table(name = "season")
 class SeasonEntity(
     @Id
     val id: UUID,
-    @Column(name = "start", nullable = false)
+    @Column(name = "start_date", nullable = false)
     val start: LocalDate,
-    @Column(name = "end", nullable = false)
+    @Column(name = "end_date", nullable = false)
     val end: LocalDate,
     @Enumerated(EnumType.STRING)
     @Column(name = "sport", nullable = false)

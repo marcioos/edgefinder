@@ -4,7 +4,6 @@ import com.marcioos.edgefinder.odds.domain.DecimalOdds
 import com.marcioos.edgefinder.odds.domain.Odds
 import com.marcioos.edgefinder.outcome.persistence.OutcomeEntity
 import com.marcioos.edgefinder.outcome.persistence.toDomain
-import com.marcioos.edgefinder.outcome.persistence.toEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -12,12 +11,24 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
+import jakarta.persistence.UniqueConstraint
 import java.math.BigDecimal
 import java.time.Instant
 import java.util.UUID
 
 @Entity
-@Table(name = "odds")
+@Table(
+    name = "odds",
+    uniqueConstraints = [
+        UniqueConstraint(
+            name = "uk_odds_sportsbook_outcome",
+            columnNames = [
+                "sportsbook_id",
+                "outcome_id",
+            ],
+        ),
+    ],
+)
 class OddsEntity(
     @Id
     val id: UUID,
@@ -27,7 +38,7 @@ class OddsEntity(
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "outcome_id")
     val outcome: OutcomeEntity,
-    @Column(name = "odds", nullable = false, precision = 10, scale = 4)
+    @Column(name = "decimal_odds", nullable = false, precision = 10, scale = 4)
     val decimalOdds: BigDecimal,
     @Column(name = "updated_at", nullable = false)
     val updatedAt: Instant,

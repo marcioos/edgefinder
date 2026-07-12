@@ -12,7 +12,7 @@ import java.util.UUID
 class SportsbookEntity(
     @Id
     val id: UUID,
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     val name: String,
 )
 
