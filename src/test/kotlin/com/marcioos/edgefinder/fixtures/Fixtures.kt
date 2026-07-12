@@ -9,11 +9,9 @@ import com.marcioos.edgefinder.odds.domain.DecimalOdds
 import com.marcioos.edgefinder.odds.domain.MarketOdds
 import com.marcioos.edgefinder.odds.domain.Odds
 import com.marcioos.edgefinder.odds.domain.Sportsbook
-import com.marcioos.edgefinder.outcome.domain.MoneylineMarket
+import com.marcioos.edgefinder.outcome.domain.MarketType
 import com.marcioos.edgefinder.outcome.domain.MoneylineOutcome
 import com.marcioos.edgefinder.sports.domain.Competition
-import com.marcioos.edgefinder.sports.domain.CompetitionFormat
-import com.marcioos.edgefinder.sports.domain.CompetitionLevel
 import com.marcioos.edgefinder.sports.domain.Competitor
 import com.marcioos.edgefinder.sports.domain.Event
 import com.marcioos.edgefinder.sports.domain.Season
@@ -21,132 +19,109 @@ import com.marcioos.edgefinder.sports.domain.Sport
 import java.math.BigDecimal
 import java.time.Instant
 import java.time.LocalDate
-import java.time.ZonedDateTime
 import java.util.UUID
 
 object Fixtures {
-    val basketball =
-        Sport(
-            "Basketball",
-            UUID.fromString("00000000-0000-0000-0000-000000000001"),
-        )
-
     val nba =
         Competition(
-            "NBA",
-            basketball,
-            CompetitionLevel.NATIONAL,
-            CompetitionFormat.LEAGUE,
-            UUID.fromString("00000000-0000-0000-0000-000000000002"),
+            name = "NBA",
+            sport = Sport.BASKETBALL,
         )
 
     val season2026 =
         Season(
-            nba,
-            DateRange(LocalDate.of(2025, 10, 1), LocalDate.of(2026, 6, 30)),
-            emptySet(),
-            UUID.fromString("00000000-0000-0000-0000-000000000003"),
+            id = UUID.fromString("00000000-0000-0000-0000-000000000001"),
+            competition = nba,
+            period = DateRange(LocalDate.of(2025, 10, 1), LocalDate.of(2026, 6, 30)),
         )
 
     val lakers =
         Competitor(
-            "Los Angeles Lakers",
-            UUID.fromString("00000000-0000-0000-0000-000000000010"),
+            name = "Los Angeles Lakers",
         )
 
     val celtics =
         Competitor(
             "Boston Celtics",
-            UUID.fromString("00000000-0000-0000-0000-000000000011"),
         )
 
     val knicks =
         Competitor(
             "New York Knicks",
-            UUID.fromString("00000000-0000-0000-0000-000000000012"),
         )
 
     val grizzlies =
         Competitor(
             "Memphis Grizzlies",
-            UUID.fromString("00000000-0000-0000-0000-000000000013"),
         )
 
     val lakersVsCeltics =
         Event(
-            season2026,
-            lakers,
-            celtics,
-            ZonedDateTime.parse("2026-01-10T20:00:00Z"),
-            UUID.fromString("00000000-0000-0000-0000-000000000020"),
+            id = UUID.fromString("00000000-0000-0000-0000-000000000010"),
+            season = season2026,
+            home = lakers,
+            away = celtics,
+            startTime = Instant.parse("2026-01-10T20:00:00Z"),
         )
 
     val knicksVsGrizzlies =
         Event(
-            season2026,
-            knicks,
-            grizzlies,
-            ZonedDateTime.parse("2026-01-13T20:00:00Z"),
-            UUID.fromString("00000000-0000-0000-0000-000000000021"),
-        )
-
-    val fistMarket =
-        MoneylineMarket(
-            lakersVsCeltics,
-            UUID.fromString("00000000-0000-0000-0000-000000000030"),
-        )
-
-    val secondMarket =
-        MoneylineMarket(
-            knicksVsGrizzlies,
-            UUID.fromString("00000000-0000-0000-0000-000000000031"),
+            id = UUID.fromString("00000000-0000-0000-0000-000000000011"),
+            season = season2026,
+            home = knicks,
+            away = grizzlies,
+            startTime = Instant.parse("2026-01-13T20:00:00Z"),
         )
 
     val draftKings =
         Sportsbook(
-            "DraftKings",
-            UUID.fromString("00000000-0000-0000-0000-000000000040"),
+            id = UUID.fromString("00000000-0000-0000-0000-000000000020"),
+            name = "DraftKings",
         )
 
     val fanDuel =
         Sportsbook(
-            "FanDuel",
-            UUID.fromString("00000000-0000-0000-0000-000000000041"),
+            id = UUID.fromString("00000000-0000-0000-0000-000000000021"),
+            name = "FanDuel",
         )
 
     fun moneylineMarketOdds(
         decimalOdds1: String,
         decimalOdds2: String,
-        market: MoneylineMarket = fistMarket,
+        market: MarketType = MarketType.MONEYLINE,
+        event: Event = lakersVsCeltics,
     ): MarketOdds {
-        val lakersOutcome =
+        val homeOutcome =
             MoneylineOutcome(
-                market,
-                lakers,
-                UUID.randomUUID(),
+                id = UUID.randomUUID(),
+                market = market,
+                event = event,
+                competitor = event.home,
             )
 
-        val celticsOutcome =
+        val awayOutcome =
             MoneylineOutcome(
-                market,
-                celtics,
-                UUID.randomUUID(),
+                id = UUID.randomUUID(),
+                market = market,
+                event = event,
+                competitor = event.away,
             )
 
         return MarketOdds(
+            event,
             market,
             listOf(
                 Odds(
                     id = UUID.randomUUID(),
                     sportsbook = draftKings,
-                    outcome = lakersOutcome,
+                    outcome = homeOutcome,
                     decimalOdds = DecimalOdds(BigDecimal(decimalOdds1)),
                     updatedAt = Instant.now(),
                 ),
                 Odds(
                     id = UUID.randomUUID(),
                     sportsbook = fanDuel,
-                    outcome = celticsOutcome,
+                    outcome = awayOutcome,
                     decimalOdds = DecimalOdds(BigDecimal(decimalOdds2)),
                     updatedAt = Instant.now(),
                 ),

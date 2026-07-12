@@ -25,7 +25,7 @@ class ArbitragePlannerTest {
                 Fixtures.moneylineMarketOdds(
                     decimalOdds1 = "2.30",
                     decimalOdds2 = "2.05",
-                    market = Fixtures.secondMarket,
+                    event = Fixtures.knicksVsGrizzlies,
                 ),
             )
 

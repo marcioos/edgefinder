@@ -22,7 +22,7 @@ class ArbitrageOpportunityDtoTest {
             .isEqualTo(
                 opportunity.selections
                     .first()
-                    .outcome.market.type,
+                    .outcome.market,
             )
 
         assertThat(dto.roi)
@@ -31,7 +31,7 @@ class ArbitrageOpportunityDtoTest {
         val event =
             opportunity.selections
                 .first()
-                .outcome.market.event
+                .outcome.event
 
         assertThat(dto.event).isEqualTo(
             ArbitrageOpportunityDto.EventDto(

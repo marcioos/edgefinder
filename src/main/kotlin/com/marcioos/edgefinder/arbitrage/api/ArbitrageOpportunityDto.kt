@@ -2,7 +2,7 @@ package com.marcioos.edgefinder.arbitrage.api
 
 import com.marcioos.edgefinder.arbitrage.domain.ArbitrageOpportunity
 import com.marcioos.edgefinder.outcome.domain.MarketType
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.UUID
 
 data class ArbitrageOpportunityDto(
@@ -22,26 +22,24 @@ data class ArbitrageOpportunityDto(
         val id: UUID,
         val home: String,
         val away: String,
-        val startTime: ZonedDateTime,
+        val startTime: Instant,
     )
 
     companion object {
         fun from(opportunity: ArbitrageOpportunity): ArbitrageOpportunityDto {
-            val market =
-                opportunity.selections
-                    .first()
-                    .outcome.market
+            val outcome = opportunity.selections.first().outcome
             val event =
-                EventDto(
-                    id = market.event.id,
-                    home = market.event.home.name,
-                    away = market.event.away.name,
-                    startTime = market.event.startTime,
-                )
-
+                outcome.event.run {
+                    EventDto(
+                        id = id,
+                        home = home.name,
+                        away = away.name,
+                        startTime = startTime,
+                    )
+                }
             return ArbitrageOpportunityDto(
                 event = event,
-                market = market.type,
+                market = outcome.market,
                 roi = opportunity.roi.value.toPlainString(),
                 selections =
                     opportunity.selections.map {

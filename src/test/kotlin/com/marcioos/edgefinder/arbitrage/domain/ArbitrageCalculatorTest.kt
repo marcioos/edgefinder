@@ -2,6 +2,7 @@ package com.marcioos.edgefinder.arbitrage.domain
 
 import com.marcioos.edgefinder.common.domain.Ratio
 import com.marcioos.edgefinder.fixtures.Fixtures
+import com.marcioos.edgefinder.fixtures.Fixtures.lakersVsCeltics
 import com.marcioos.edgefinder.fixtures.awayOdds
 import com.marcioos.edgefinder.fixtures.homeOdds
 import com.marcioos.edgefinder.odds.domain.DecimalOdds
@@ -91,7 +92,7 @@ class ArbitrageCalculatorTest {
             Fixtures.moneylineMarketOdds(
                 decimalOdds1 = "2.30",
                 decimalOdds2 = "2.05",
-                market = Fixtures.secondMarket,
+                event = Fixtures.knicksVsGrizzlies,
             )
 
         val opportunities =
@@ -114,7 +115,7 @@ class ArbitrageCalculatorTest {
             Fixtures.moneylineMarketOdds(
                 decimalOdds1 = "1.91",
                 decimalOdds2 = "1.91",
-                market = Fixtures.secondMarket,
+                event = Fixtures.knicksVsGrizzlies,
             )
 
         val opportunities =

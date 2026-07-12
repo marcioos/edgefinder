@@ -7,9 +7,12 @@ import com.marcioos.edgefinder.outcome.domain.Outcome
 
 class ArbitrageCalculator {
     fun calculateOpportunities(odds: List<Odds>): List<ArbitrageOpportunity> {
-        val oddsByMarket = getBestOddsPerOutcome(odds).values.groupBy { it.outcome.market }
+        val oddsByMarket = getBestOddsPerOutcome(odds).values.groupBy { it.outcome.event to it.outcome.market }
 
-        return oddsByMarket.mapNotNull { (market, odds) -> findOpportunity(MarketOdds(market, odds)) }
+        return oddsByMarket.mapNotNull { (key, odds) ->
+            val (event, market) = key
+            findOpportunity(MarketOdds(event, market, odds))
+        }
     }
 
     private fun getBestOddsPerOutcome(odds: List<Odds>): Map<Outcome, Odds> =

@@ -5,8 +5,9 @@ import com.marcioos.edgefinder.common.domain.MathConstants.MINUS_HUNDRED
 import com.marcioos.edgefinder.common.domain.MathConstants.TWO
 import com.marcioos.edgefinder.common.domain.MathSettings.CALC_SCALE
 import com.marcioos.edgefinder.common.domain.Ratio
-import com.marcioos.edgefinder.outcome.domain.Market
+import com.marcioos.edgefinder.outcome.domain.MarketType
 import com.marcioos.edgefinder.outcome.domain.Outcome
+import com.marcioos.edgefinder.sports.domain.Event
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.Instant
@@ -14,23 +15,24 @@ import java.util.UUID
 import kotlin.math.abs
 
 data class Sportsbook(
-    val name: String,
     val id: UUID = UUID.randomUUID(),
+    val name: String,
 )
 
 data class Odds(
+    val id: UUID = UUID.randomUUID(),
     val sportsbook: Sportsbook,
     val outcome: Outcome,
     val decimalOdds: DecimalOdds,
     val updatedAt: Instant,
-    val id: UUID = UUID.randomUUID(),
 ) {
     val impliedProbability
         get() = decimalOdds.impliedProbability()
 }
 
 data class MarketOdds(
-    val market: Market,
+    val event: Event,
+    val market: MarketType,
     val odds: List<Odds>,
 ) {
     fun totalImpliedProbability(): Ratio = odds.map(Odds::impliedProbability).reduce(Ratio::plus)
